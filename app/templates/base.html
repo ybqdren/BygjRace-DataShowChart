@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{% block head_title%}{% endblock head_title%}</title>
+    <script src="/static/js/echarts.min.js"></script>
+    <style>
+        #main{
+            width: 1000px;
+            height: 500px;
+            margin-left: auto;
+            margin-right: auto;
+            margin-top:20px;
+        }
+
+        #content-id{
+            text-align: center;
+            font-size: 30px;
+            padding-top: 20px;
+        }
+    </style>
+</head>
+    {% block content%}
+    {% endblock content%}
+    <div align="center"><a href="/">Return-></a></div>
+</html>

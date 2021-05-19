@@ -1,0 +1,69 @@
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src='/static/js/echarts.min.js'></script>
+        <script src='/static/js/echarts-wordcloud.js'></script>
+        <style>
+        html, body, #main {
+            width: 100%;
+            height: 100%;
+            margin: 0;
+        }
+    </style>
+    </head>
+    <body>
+
+        <div id='main'></div>
+
+        <script>
+            var chart = echarts.init(document.getElementById('main'));
+
+            var option = {
+                tooltip: {},
+                series: [ {
+                    type: 'wordCloud',
+                    gridSize: 2,
+                    sizeRange: [12, 50],
+                    rotationRange: [-90, 90],
+                    shape: 'pentagon',
+                    width: 600,
+                    height: 400,
+                    textStyle: {
+                        normal: {
+                            color: function () {
+                                return 'rgb(' + [
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160),
+                                    Math.round(Math.random() * 160)
+                                ].join(',') + ')';
+                            }
+                        },
+                        emphasis: {
+                            shadowBlur: 10,
+                            shadowColor: '#333'
+                        }
+                    },
+                    data: [
+                        {% for name in game_name%}
+                        {
+                                name: '{{ name }}',
+                                value: 100,
+                                textStyle: {
+                                    normal: {
+                                        color: 'black'
+                                    },
+                                    emphasis: {
+                                        color: 'red'
+                                    }
+                                }
+                        },
+                        {% endfor %}
+                    ]
+                } ]
+            };
+
+            chart.setOption(option);
+
+        </script>
+    </body>
+</html>

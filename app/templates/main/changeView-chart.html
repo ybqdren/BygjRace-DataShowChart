@@ -1,0 +1,44 @@
+{% extends 'base.html' %}
+
+{% block head_title%}
+图像切换-折线图/柱状图
+{% endblock head_title%}
+
+{% block content %}
+    <body>
+        <div id="content-id">折线图/柱形图-line/bar</div>
+        <div id="main"></div>
+    </body>
+    <script>
+
+        my_chart = echarts.init(document.getElementById('main'));
+
+        var option = {
+            title:{
+                text:'一个简单的折/柱切换图',
+            },
+            tooltip:{
+                trigger:'item'
+            },
+            toolbox:{
+                feature:{
+                    magicType:{
+                        type:['line','bar']
+                    }
+                }
+            },
+            xAxis:{
+                type:'category',
+                data:["北美","欧美","日本","其他国家"]
+            },
+            yAxis: {},
+            series:[{
+                type:'line',
+                data: [{{game_sale.NA_Sales}}, {{game_sale.EU_Sales}}, {{game_sale.jp_Sales|default('3.5')}}, {{game_sale.Other_Sales}}]
+            }]
+        };
+
+        my_chart.setOption(option);
+
+    </script>
+{% endblock content %}

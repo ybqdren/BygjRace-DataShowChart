@@ -1,0 +1,61 @@
+{% extends 'base.html' %}
+
+{% block head_title%}
+数据可视化展示-饼图
+{% endblock head_title%}
+
+{% block content %}
+<body>
+    <div id="content-id">饼图-bar</div>
+    <div id="main"></div>
+
+    <script>
+        var na_sales = [{% for g in game %}{{ g.NA_Sales}},{% endfor %}];
+        var eu_sales = [{% for g in game %}{{g.EU_Sales}},{% endfor %}];
+        var jp_sales = [{% for g in game %}{{g.JP_Sales}},{% endfor %}];
+        var other_sales = [{% for g in game %}{{g.Other_Sales}},{% endfor %}];
+
+        var avg_na =eval( na_sales.join("+"));
+        var avg_eu = eval(eu_sales.join("+"));
+        var avg_jp = eval(jp_sales.join("+"));
+        var avg_other = eval(other_sales.join("+"));
+        print_log();
+
+        var pie_chart = echarts.init(document.getElementById('main'));
+        var option = {
+            title:{
+                text:'PS3平台游戏销量区域份额',
+                subtext:'摘取销量前十游戏数据'
+            },
+            tooltip:{
+                formatter:'【{b}区域销量】 <br/> {c}百万份({d}%)'
+            },
+            legend:{
+                data:['北欧','欧洲','日本','其他']
+            },
+            series:[
+                {
+                    type:'pie',
+                    radius:['25%','50%'],
+                    data:[
+                        {value:avg_na,name:'北欧'},
+                        {value:avg_eu,name:'欧洲'},
+                        {value:avg_jp,name:'日本'},
+                        {value:avg_other,name:'其他'}
+                    ]
+                }
+            ]
+        };
+        pie_chart.setOption(option);
+
+
+        function print_log(){
+            console.log("avg_na="+avg_na);
+            console.log("avg_eu="+avg_eu);
+            console.log("avg_jp="+avg_jp);
+            console.log("avg_other="+avg_other);
+        }
+
+    </script>
+</body>
+{% endblock content %}

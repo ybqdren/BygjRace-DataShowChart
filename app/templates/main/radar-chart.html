@@ -1,0 +1,52 @@
+{% extends 'base.html'%}
+
+{% block head_title %}
+数据可视化展示-雷达图
+{% endblock head_title %}
+
+{% block content %}
+<body>
+    <div id="content-id">雷达图-radar</div>
+    <div id="main"></div>
+
+    <script>
+        var na_sales = [{% for g in game%}{{ g.NA_Sales }},{% endfor %}];    //北美地区销量
+        var eu_sales = [{% for g in game %}{{ g.EU_Sales }},{% endfor %}];    //欧美地区销量
+        var jp_sales = [{% for g in game %}{{ g.JP_Sales }},{% endfor %}];      //日本地区销量
+        var other_sales = [{% for g in game%}{{ g.Other_Sales }},{% endfor %}];   //其他地区销量
+
+        var radar_chart = echarts.init(document.getElementById('main'));
+
+        var option = {
+            title:{
+                text:'各区域销量'
+            },
+            tooltip:{},
+            legend:{
+                data:[{% for g in game %}'{{ g.Name }}',{% endfor %}],
+            },
+            radar:{
+                indicator:[
+                    {name:'北美',max:50},
+                    {name:'欧洲',max:50},
+                    {name:'日本',max:50},
+                    {name:'其他',max:50}
+                ]
+            },
+            series: [{
+                type:'radar',
+                data:[
+                    {% for g in game%}
+                    {
+                        value:[na_sales[{{ loop.index }}-1],eu_sales[{{ loop.index }}-1],jp_sales[{{ loop.index }}-1],other_sales[{{ loop.index }}-1]],
+                        name:'{{ g.Name }}'
+                    },
+                    {% endfor %}
+                ]
+            }]
+        };
+
+        radar_chart.setOption(option);
+    </script>
+</body>
+{% endblock content %}

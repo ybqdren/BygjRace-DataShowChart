@@ -1,0 +1,36 @@
+{% extends 'base.html'%}
+
+{% block head_title %}
+数据可视化展示-柱状图
+{% endblock head_title%}
+
+{% block content %}
+    <body>
+        <div id="content-id">柱状图-bar</div>
+        <div id="main"></div>
+        <script type="text/javascript">
+            var barChart = echarts.init(document.getElementById('main'));
+
+            var option = {
+                title: {
+                    text: '{{game_sale.Name}}各区域销量',
+                    subtext: '单位：百万'
+                },
+                tooltip:{},
+                xAxis: {
+                    data: ["北美","欧美","日本","其他国家"]
+                },
+                yAxis: {
+                    type:'value'
+                },
+                series: [{
+                    name: '销量',
+                    type: 'bar',
+                    data: [{{game_sale.NA_Sales}}, {{game_sale.EU_Sales}}, {{game_sale.jp_Sales}}, {{game_sale.Other_Sales}}]
+                }]
+            };
+
+            barChart.setOption(option);
+        </script>
+    </body>
+{% endblock content %}

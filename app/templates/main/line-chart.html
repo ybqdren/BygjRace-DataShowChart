@@ -1,0 +1,33 @@
+{% extends 'base.html'%}
+
+{% block head_title%}
+数据可视化展示-折线图
+{% endblock %}
+
+{% block content %}
+    <body>
+        <div id="content-id">折线图-line</div>
+        <div id="main"></div>
+    </body>
+    <script>
+        var line_chart = echarts.init(document.getElementById('main'));
+        var option = {
+            title:{
+                text:'2000年~2010年发行游戏数量增长趋势',
+                subtext:'单位：个'
+            },
+            tooltip:{},
+            xAxis:{
+                type:'category',
+                data:[{%for g in game%}'{{ g }}',{% endfor %}]
+            },
+            yAxis:{},
+            series:[{
+                type:'line',
+                data:[{% for g in game%}{{game[g]}},{% endfor %}]
+            }]
+        };
+
+        line_chart.setOption(option);
+    </script>
+{% endblock %}
